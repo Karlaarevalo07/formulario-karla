@@ -92,7 +92,7 @@ const Formulario = () => {
         <option value="">--Selecciona--</option>
         <option value="fútbol">Fútbol</option>
         <option value="baloncesto">Baloncesto</option>
-        <option value="tenis">Tenis</option>
+        <option value="Natacion">Natacion</option>
       </select>
 
       <label>Género:</label>
@@ -129,12 +129,12 @@ const Formulario = () => {
         </label>
       </div>
 
-      <label>Estado:</label>
-      <select name="estado" value={formulario.estado} onChange={manejarCambio} required>
+      <label>Departamentos:</label>
+      <select name="Departamentos" value={formulario.estado} onChange={manejarCambio} required>
         <option value="">--Selecciona--</option>
         <option value="guatemala">Guatemala</option>
         <option value="jalapa">Jalapa</option>
-        <option value="quiché">Quiché</option>
+        <option value="Santa Rosa">Santa Rosa</option>
       </select>
 
       <label>
