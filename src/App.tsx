@@ -16,8 +16,7 @@ const Formulario = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
-    const checked =
-      type === 'checkbox' && 'checked' in e.target ? e.target.checked : undefined;
+    const checked = type === 'checkbox' && 'checked' in e.target ? e.target.checked : undefined;
 
     if (type === 'checkbox' && name === 'autos') {
       const nuevosAutos = checked
@@ -31,10 +30,39 @@ const Formulario = () => {
     }
   };
 
-  const manejarEnvio = (e: React.FormEvent) => {
+  const manejarEnvio = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formulario); // Aquí iría la llamada al backend
-    alert('Datos enviados');
+
+    try {
+      const respuesta = await fetch('http://localhost:3001/api/registro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formulario),
+      });
+
+      if (!respuesta.ok) {
+        throw new Error('Error al guardar los datos');
+      }
+
+      const resultado = await respuesta.json();
+      alert(resultado.mensaje);
+
+      // Limpia el formulario
+      setFormulario({
+        nombre: '',
+        apellido: '',
+        deporte: '',
+        genero: '',
+        estado: '',
+        mayorEdad: false,
+        autos: [],
+      });
+    } catch (error) {
+      alert('❌ Hubo un error al conectar con el servidor.');
+      console.error(error);
+    }
   };
 
   return (
@@ -42,13 +70,25 @@ const Formulario = () => {
       <h1>Actualizar información</h1>
 
       <label>Nombre:</label>
-      <input type="text" name="nombre" value={formulario.nombre} onChange={manejarCambio} />
+      <input
+        type="text"
+        name="nombre"
+        value={formulario.nombre}
+        onChange={manejarCambio}
+        required
+      />
 
       <label>Apellido:</label>
-      <input type="text" name="apellido" value={formulario.apellido} onChange={manejarCambio} />
+      <input
+        type="text"
+        name="apellido"
+        value={formulario.apellido}
+        onChange={manejarCambio}
+        required
+      />
 
       <label>Deporte favorito:</label>
-      <select name="deporte" value={formulario.deporte} onChange={manejarCambio}>
+      <select name="deporte" value={formulario.deporte} onChange={manejarCambio} required>
         <option value="">--Selecciona--</option>
         <option value="fútbol">Fútbol</option>
         <option value="baloncesto">Baloncesto</option>
@@ -85,12 +125,12 @@ const Formulario = () => {
             checked={formulario.genero === 'No decirlo'}
             onChange={manejarCambio}
           />
-          Prefiero No decirlo
+          Prefiero no decirlo
         </label>
       </div>
 
       <label>Estado:</label>
-      <select name="estado" value={formulario.estado} onChange={manejarCambio}>
+      <select name="estado" value={formulario.estado} onChange={manejarCambio} required>
         <option value="">--Selecciona--</option>
         <option value="guatemala">Guatemala</option>
         <option value="jalapa">Jalapa</option>
@@ -109,46 +149,18 @@ const Formulario = () => {
 
       <label>Autos que posee:</label>
       <div className="linea-opciones">
-        <label>
-          <input
-            type="checkbox"
-            name="autos"
-            value="Mazda"
-            checked={formulario.autos.includes('Mazda')}
-            onChange={manejarCambio}
-          />
-          Mazda
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="autos"
-            value="Mitsubishi"
-            checked={formulario.autos.includes('Mitsubishi')}
-            onChange={manejarCambio}
-          />
-          Mitsubishi
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="autos"
-            value="Toyota"
-            checked={formulario.autos.includes('Toyota')}
-            onChange={manejarCambio}
-          />
-          Toyota
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="autos"
-            value="Nissan"
-            checked={formulario.autos.includes('Nissan')}
-            onChange={manejarCambio}
-          />
-          Nissan
-        </label>
+        {['Mazda', 'Mitsubishi', 'Toyota', 'Nissan'].map((marca) => (
+          <label key={marca}>
+            <input
+              type="checkbox"
+              name="autos"
+              value={marca}
+              checked={formulario.autos.includes(marca)}
+              onChange={manejarCambio}
+            />
+            {marca}
+          </label>
+        ))}
       </div>
 
       <button type="submit">Guardar cambios</button>
