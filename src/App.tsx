@@ -49,7 +49,6 @@ const Formulario = () => {
       const resultado = await respuesta.json();
       alert(resultado.mensaje);
 
-      // Limpia el formulario
       setFormulario({
         nombre: '',
         apellido: '',
@@ -92,7 +91,7 @@ const Formulario = () => {
         <option value="">--Selecciona--</option>
         <option value="fútbol">Fútbol</option>
         <option value="baloncesto">Baloncesto</option>
-        <option value="Natacion">Natacion</option>
+        <option value="Natacion">Natación</option>
       </select>
 
       <label>Género:</label>
@@ -129,8 +128,8 @@ const Formulario = () => {
         </label>
       </div>
 
-      <label>Departamentos:</label>
-      <select name="Departamentos" value={formulario.estado} onChange={manejarCambio} required>
+      <label>Departamento:</label>
+      <select name="estado" value={formulario.estado} onChange={manejarCambio} required>
         <option value="">--Selecciona--</option>
         <option value="guatemala">Guatemala</option>
         <option value="jalapa">Jalapa</option>
