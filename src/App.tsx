@@ -1,148 +1,110 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import './App.css';
 
-const Formulario = () => {
-  const [datos, setDatos] = useState({
-    nombre: "",
-    apellido: "",
-    deporte: "",
-    genero: "",
-    estado: "",
+export const Formulario = () => {
+  const [formulario, setFormulario] = useState({
+    nombre: '',
+    apellido: '',
+    deporte: '',
+    genero: '',
+    estado: '',
     mayorEdad: false,
-    autos: {
-      Ford: false,
-      Chrysler: false,
-      Toyota: false,
-      Nissan: false,
-    },
+    autos: [] as string[],
   });
 
   const manejarCambio = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
 
-    if (type === "checkbox") {
-      const isChecked = (e.target as HTMLInputElement).checked;
+    if (type === 'checkbox' && name === 'autos') {
+      const nuevosAutos = checked
+        ? [...formulario.autos, value]
+        : formulario.autos.filter((auto) => auto !== value);
 
-      if (name.startsWith("autos.")) {
-        const auto = name.split(".")[1];
-        setDatos((prev) => ({
-          ...prev,
-          autos: {
-            ...prev.autos,
-            [auto]: isChecked,
-          },
-        }));
-      } else {
-        setDatos((prev) => ({
-          ...prev,
-          [name]: isChecked,
-        }));
-      }
+      setFormulario({ ...formulario, autos: nuevosAutos });
+    } else if (type === 'checkbox') {
+      setFormulario({ ...formulario, [name]: checked });
     } else {
-      setDatos((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setFormulario({ ...formulario, [name]: value });
     }
   };
 
-  const manejarEnvio = async (e: React.FormEvent) => {
+  const manejarEnvio = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:3001/api/registro", datos);
-      alert("Información enviada correctamente.");
-    } catch (error) {
-      alert("Error al enviar los datos.");
-      console.error(error);
-    }
+    console.log(formulario);
+    // Aquí puedes hacer el fetch al backend si deseas
   };
 
   return (
-    <form onSubmit={manejarEnvio}>
-      <h2>Actualizar Información</h2>
+    <form onSubmit={manejarEnvio} className="formulario">
+      <h1>Actualizar información</h1>
 
       <label>
-        <em>Nombre:</em>
-        <input type="text" name="nombre" value={datos.nombre} onChange={manejarCambio} />
+        Nombre:
+        <input
+          type="text"
+          name="nombre"
+          value={formulario.nombre}
+          onChange={manejarCambio}
+        />
       </label>
-      <br />
 
       <label>
-        <em>Apellido:</em>
-        <input type="text" name="apellido" value={datos.apellido} onChange={manejarCambio} />
+        Apellido:
+        <input
+          type="text"
+          name="apellido"
+          value={formulario.apellido}
+          onChange={manejarCambio}
+        />
       </label>
-      <br />
 
       <label>
-        <em>Deporte favorito:</em>
-        <select name="deporte" value={datos.deporte} onChange={manejarCambio}>
+        <i>Deporte favorito:</i>
+        <select name="deporte" value={formulario.deporte} onChange={manejarCambio}>
           <option value="">--Selecciona--</option>
-          <option value="futbol">Fútbol</option>
-          <option value="basketball">Basketball</option>
-          <option value="tenis">Tenis</option>
+          <option value="fútbol">Fútbol</option>
+          <option value="básquetbol">Básquetbol</option>
+          <option value="natación">Natación</option>
         </select>
       </label>
-      <br />
 
       <label>
-        <em>Género:</em>
-        <input type="radio" name="genero" value="masculino" onChange={manejarCambio} /> masculino
-        <input type="radio" name="genero" value="femenino" onChange={manejarCambio} /> femenino
-        <input type="radio" name="genero" value="no_sabe" onChange={manejarCambio} /> no sabe
+        <i>Género:</i>
+        <label><input type="radio" name="genero" value="masculino" onChange={manejarCambio} />masculino</label>
+        <label><input type="radio" name="genero" value="femenino" onChange={manejarCambio} />femenino</label>
+        <label><input type="radio" name="genero" value="no sabe" onChange={manejarCambio} />no sabe</label>
       </label>
-      <br />
 
       <label>
-        <em>Estado:</em>
-        <select name="estado" value={datos.estado} onChange={manejarCambio}>
+        <i>Estado:</i>
+        <select name="estado" value={formulario.estado} onChange={manejarCambio}>
           <option value="">--Selecciona--</option>
           <option value="guatemala">Guatemala</option>
-          <option value="sacatepequez">Sacatepéquez</option>
-          <option value="chimaltenango">Chimaltenango</option>
+          <option value="jalapa">Jalapa</option>
+          <option value="santa rosa">Santa Rosa</option>
         </select>
       </label>
-      <br />
 
       <label>
-        <input type="checkbox" name="mayorEdad" checked={datos.mayorEdad} onChange={manejarCambio} />
+        <input
+          type="checkbox"
+          name="mayorEdad"
+          checked={formulario.mayorEdad}
+          onChange={manejarCambio}
+        />
         Mayor de edad
       </label>
-      <br />
 
       <label>
-        <em>Autos que posee:</em>
-        <input
-          type="checkbox"
-          name="autos.Ford"
-          checked={datos.autos.Ford}
-          onChange={manejarCambio}
-        />
-        Ford
-        <input
-          type="checkbox"
-          name="autos.Chrysler"
-          checked={datos.autos.Chrysler}
-          onChange={manejarCambio}
-        />
-        Chrysler
-        <input
-          type="checkbox"
-          name="autos.Toyota"
-          checked={datos.autos.Toyota}
-          onChange={manejarCambio}
-        />
-        Toyota
-        <input
-          type="checkbox"
-          name="autos.Nissan"
-          checked={datos.autos.Nissan}
-          onChange={manejarCambio}
-        />
-        Nissan
+        <i>Autos que posee:</i>
+        <label><input type="checkbox" name="autos" value="Ford" onChange={manejarCambio} />Ford</label>
+        <label><input type="checkbox" name="autos" value="Chrysler" onChange={manejarCambio} />Chrysler</label>
+        <label><input type="checkbox" name="autos" value="Toyota" onChange={manejarCambio} />Toyota</label>
+        <label><input type="checkbox" name="autos" value="Nissan" onChange={manejarCambio} />Nissan</label>
       </label>
-      <br />
 
       <button type="submit">Guardar cambios</button>
     </form>
