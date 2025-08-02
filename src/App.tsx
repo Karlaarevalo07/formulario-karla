@@ -50,7 +50,6 @@ export const Formulario = () => {
           onChange={manejarCambio}
         />
       </label>
-
       <label>
         Apellido:
         <input
@@ -60,7 +59,6 @@ export const Formulario = () => {
           onChange={manejarCambio}
         />
       </label>
-
       <label>
         <i>Deporte favorito:</i>
         <select name="deporte" value={formulario.deporte} onChange={manejarCambio}>
@@ -75,7 +73,7 @@ export const Formulario = () => {
         <i>Género:</i>
         <label><input type="radio" name="genero" value="masculino" onChange={manejarCambio} />masculino</label>
         <label><input type="radio" name="genero" value="femenino" onChange={manejarCambio} />femenino</label>
-        <label><input type="radio" name="genero" value="no sabe" onChange={manejarCambio} />no sabe</label>
+        <label><input type="radio" name="genero" value="prefiero no decirlo" onChange={manejarCambio} />prefiero no decirlo</label>
       </label>
 
       <label>
