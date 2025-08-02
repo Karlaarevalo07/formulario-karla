@@ -61,31 +61,31 @@ const Formulario = () => {
           <input
             type="radio"
             name="genero"
-            value="masculino"
-            checked={formulario.genero === 'masculino'}
+            value="Masculino"
+            checked={formulario.genero === 'Masculino'}
             onChange={manejarCambio}
           />
-          masculino
+          Masculino
         </label>
         <label>
           <input
             type="radio"
             name="genero"
-            value="femenino"
-            checked={formulario.genero === 'femenino'}
+            value="Femenino"
+            checked={formulario.genero === 'Femenino'}
             onChange={manejarCambio}
           />
-          femenino
+          Femenino
         </label>
         <label>
           <input
             type="radio"
             name="genero"
-            value="no decirlo"
-            checked={formulario.genero === 'no decirlo'}
+            value="No decirlo"
+            checked={formulario.genero === 'No decirlo'}
             onChange={manejarCambio}
           />
-          Prefiero no decirlo
+          Prefiero No decirlo
         </label>
       </div>
 
@@ -113,21 +113,21 @@ const Formulario = () => {
           <input
             type="checkbox"
             name="autos"
-            value="Vado"
-            checked={formulario.autos.includes('Vado')}
+            value="Mazda"
+            checked={formulario.autos.includes('Mazda')}
             onChange={manejarCambio}
           />
-          Vado
+          Mazda
         </label>
         <label>
           <input
             type="checkbox"
             name="autos"
-            value="Chrysler"
-            checked={formulario.autos.includes('Chrysler')}
+            value="Mitsubishi"
+            checked={formulario.autos.includes('Mitsubishi')}
             onChange={manejarCambio}
           />
-          Chrysler
+          Mitsubishi
         </label>
         <label>
           <input
